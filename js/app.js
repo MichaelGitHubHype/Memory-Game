@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
+cardList = [];
 
 /*
  * Display the cards on the page
@@ -24,6 +24,25 @@ function shuffle(array) {
 
     return array;
 }
+let allCards = document.querySelectorAll('.card');
+let openCards = [];
+
+for (const card of allCards) {
+    card.addEventListener('click', function(e) {
+        console.log(card);
+        card.classList.add('open', 'show');
+        openCards.push(card)
+        if (openCards.length >= 2) {
+            for (const card of openCards) {
+                card.classList.remove("open")
+                card.classList.remove("show")
+                openCards = []
+            }
+        }
+
+    }) 
+}
+
 
 
 /*
