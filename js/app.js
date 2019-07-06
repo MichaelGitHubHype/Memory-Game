@@ -1,7 +1,6 @@
 /*
  * Create a list that holds all of your cards
  */
-cardList = [];
 
 /*
  * Display the cards on the page
@@ -24,8 +23,40 @@ function shuffle(array) {
 
     return array;
 }
+
+
+                
 let allCards = document.querySelectorAll('.card');
 let openCards = [];
+
+function createGame() {
+    
+    let classes_of_cards = ["fa-diamond", "fa-paper-plane-o",
+    "fa-anchor", "fa-bolt",
+    "fa-cube", "fa-anchor",
+    "fa-leaf", "fa-bicycle",
+    "fa-diamond", "fa-bomb",
+    "fa-leaf", "fa-bomb",
+    "fa-bolt", "fa-bicycle",
+    "fa-paper-plane-o", "fa-cube"];
+
+    let cardList = shuffle(classes_of_cards);
+
+
+    for (let deck_card of cardList) {
+        let deck_ul = document.getElementById("deck");
+        let list_to_add = document.createElement("li");
+        list_to_add.classList = "card";
+        let icon_to_add = document.createElement('i');
+        icon_to_add.classList = "fa " + deck_card;
+        list_to_add.appendChild(icon_to_add);
+        deck_ul.appendChild(list_to_add);
+    }
+    return;
+}
+
+
+createGame();
 
 for (const card of allCards) {
     card.addEventListener('click', function() {
