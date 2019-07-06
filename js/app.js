@@ -31,15 +31,27 @@ for (const card of allCards) {
     card.addEventListener('click', function() {
         card.classList.add('open', 'show');
         openCards.push(card)
-        if (openCards.length >= 2) {
-            setTimeout(function removeCards() {
+        if (openCards.length == 2) {
+            // checking if the cards match 
+            var first = openCards[0].querySelector('i').classList.value;
+            var second = openCards[1].querySelector('i').classList.value;
+
+            if (first == second) {
                 for (const card of openCards) {
-                    card.classList.remove("open")
-                    card.classList.remove("show")
+                    card.classList.remove("open", "show")
+                    card.classList.add('match');
                     openCards = []
                 }
-            }, 1000);
-                
+            }
+            else {
+                // if cards don't match - go away 
+                setTimeout(function removeCards() {
+                    for (const card of openCards) {
+                        card.classList.remove("open", "show")
+                        openCards = []
+                    }
+                }, 1000);
+            }
         };
     });
 };
