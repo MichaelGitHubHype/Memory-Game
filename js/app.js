@@ -28,7 +28,7 @@ let allCards = document.querySelectorAll('.card');
 let openCards = [];
 
 for (const card of allCards) {
-    card.addEventListener('click', function(e) {
+    card.addEventListener('click', function() {
         card.classList.add('open', 'show');
         openCards.push(card)
         if (openCards.length >= 2) {
@@ -43,6 +43,7 @@ for (const card of allCards) {
         };
     });
 };
+
 
 
 
