@@ -1,15 +1,3 @@
-/*
- * Create a list that holds all of your cards
- */
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -24,10 +12,9 @@ function shuffle(array) {
     return array;
 }
 
-
-                
-let allCards = document.querySelectorAll('.card');
+  
 let openCards = [];
+let counter = 0;
 
 function createGame() {
     
@@ -58,24 +45,36 @@ function createGame() {
 
 createGame();
 
-for (const card of allCards) {
+let allCards = document.querySelectorAll('.card');
+let moves = document.getElementById("moves");;
+
+console.log(checkGameOver())
+// Adding event listeners to all the cards 
+for (const card of allCards) { 
     card.addEventListener('click', function() {
+
         card.classList.add('open', 'show');
-        openCards.push(card)
+        openCards.push(card);
         if (openCards.length == 2) {
+            counter += 1;
+            moves.innerText = counter;        
             // checking if the cards match 
             var first = openCards[0].querySelector('i').classList.value;
             var second = openCards[1].querySelector('i').classList.value;
 
             if (first == second) {
                 for (const card of openCards) {
-                    card.classList.remove("open", "show")
                     card.classList.add('match');
                     openCards = []
                 }
+                if (checkGameOver())  {
+                    let finish = document.getElementById("game_over");
+                    finish.classList.remove("hide");
+                    console.log("game over");
+                }
             }
             else {
-                // if cards don't match - go away 
+                // if cards don't match - they go away 
                 setTimeout(function removeCards() {
                     for (const card of openCards) {
                         card.classList.remove("open", "show")
@@ -87,17 +86,19 @@ for (const card of allCards) {
     });
 };
 
+function checkGameOver() {
+    for (let each_card of allCards) {
+        if (each_card.classList.contains('match')) {
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
 
 
 
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
