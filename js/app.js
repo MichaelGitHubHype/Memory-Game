@@ -42,60 +42,74 @@ function createGame() {
     return;
 }
 
+function removeGame() {
+    let deck = document.getElementById('deck');
+    deck.innerHTML = '';
+}
+function main() {
+    let allCards = document.querySelectorAll('.card');
+    let moves = document.getElementById("moves");
 
-createGame();
+    // Adding event listeners to all the cards 
+    for (const card of allCards) { 
+        card.addEventListener('click', function() {
+            if (openCards.length < 2 && openCards[0] !== card) {
+                card.classList.add('open', 'show');
+                openCards.push(card);
+                if (openCards.length == 2) {
+                    counter += 1;
+                    moves.innerText = counter;        
+                    // checking if the cards match 
+                    var first = openCards[0].querySelector('i').classList.value;
+                    var second = openCards[1].querySelector('i').classList.value;
 
-let allCards = document.querySelectorAll('.card');
-let moves = document.getElementById("moves");;
-
-console.log(checkGameOver())
-// Adding event listeners to all the cards 
-for (const card of allCards) { 
-    card.addEventListener('click', function() {
-        if (openCards.length < 2 && openCards[0] !== card) {
-            card.classList.add('open', 'show');
-            openCards.push(card);
-            if (openCards.length == 2) {
-                counter += 1;
-                moves.innerText = counter;        
-                // checking if the cards match 
-                var first = openCards[0].querySelector('i').classList.value;
-                var second = openCards[1].querySelector('i').classList.value;
-
-                if (first == second) {
-                    for (const card of openCards) {
-                        card.classList.add('match');
-                        openCards = []
-                    }
-                    if (checkGameOver())  {
-                        let finish = document.getElementById("game_over");
-                        finish.classList.remove("hide");
-                        console.log("game over");
-                    }
-                }
-                else {
-                    // if cards don't match - they go away 
-                    setTimeout(function removeCards() {
+                    if (first == second) {
                         for (const card of openCards) {
-                            card.classList.remove("open", "show")
+                            card.classList.add('match');
                             openCards = []
                         }
-                    }, 1000);
-                }
-            };
+                        if (checkGameOver())  {
+                            let finish = document.getElementById("game_over");
+                            finish.classList.remove("hide");
+                            console.log("game over");
+                        }
+                    }
+                    else {
+                        // if cards don't match - they go away 
+                        setTimeout(function removeCards() {
+                            for (const card of openCards) {
+                                card.classList.remove("open", "show")
+                                openCards = []
+                            }
+                        }, 1000);
+                    }
+                };
+            }
+        });
+    };
+
+    function checkGameOver() {
+        for (let each_card of allCards) {
+            if (each_card.classList.contains('match')) {
+                continue;
+            }
+            return false;
         }
+        return true;
+    }
+    document.querySelector('.fa-repeat').addEventListener('click', function() {
+        removeGame();
+        counter = 0;
+        moves.innerText = counter;
+        createGame();
+        main();
+        
+    
     });
 };
 
-function checkGameOver() {
-    for (let each_card of allCards) {
-        if (each_card.classList.contains('match')) {
-            continue;
-        }
-        return false;
-    }
-    return true;
-}
+createGame();
+main();
 
 
 
