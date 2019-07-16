@@ -52,37 +52,38 @@ console.log(checkGameOver())
 // Adding event listeners to all the cards 
 for (const card of allCards) { 
     card.addEventListener('click', function() {
+        if (openCards.length < 2 && openCards[0] !== card) {
+            card.classList.add('open', 'show');
+            openCards.push(card);
+            if (openCards.length == 2) {
+                counter += 1;
+                moves.innerText = counter;        
+                // checking if the cards match 
+                var first = openCards[0].querySelector('i').classList.value;
+                var second = openCards[1].querySelector('i').classList.value;
 
-        card.classList.add('open', 'show');
-        openCards.push(card);
-        if (openCards.length == 2) {
-            counter += 1;
-            moves.innerText = counter;        
-            // checking if the cards match 
-            var first = openCards[0].querySelector('i').classList.value;
-            var second = openCards[1].querySelector('i').classList.value;
-
-            if (first == second) {
-                for (const card of openCards) {
-                    card.classList.add('match');
-                    openCards = []
-                }
-                if (checkGameOver())  {
-                    let finish = document.getElementById("game_over");
-                    finish.classList.remove("hide");
-                    console.log("game over");
-                }
-            }
-            else {
-                // if cards don't match - they go away 
-                setTimeout(function removeCards() {
+                if (first == second) {
                     for (const card of openCards) {
-                        card.classList.remove("open", "show")
+                        card.classList.add('match');
                         openCards = []
                     }
-                }, 1000);
-            }
-        };
+                    if (checkGameOver())  {
+                        let finish = document.getElementById("game_over");
+                        finish.classList.remove("hide");
+                        console.log("game over");
+                    }
+                }
+                else {
+                    // if cards don't match - they go away 
+                    setTimeout(function removeCards() {
+                        for (const card of openCards) {
+                            card.classList.remove("open", "show")
+                            openCards = []
+                        }
+                    }, 1000);
+                }
+            };
+        }
     });
 };
 
